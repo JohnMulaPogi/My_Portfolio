@@ -34,7 +34,7 @@ export const projects = [
   {
     title: "studya.io",
     category: "Study Support Mobile Application",
-    year: "2025",
+    year: "2024",
     status: "Mobile App Concept",
     summary:
       "A study-focused mobile application with Pomodoro tools and flashcards to help users stay focused and test what they learned.",
@@ -50,7 +50,7 @@ export const projects = [
   {
     title: "Art De Rio Booking System",
     category: "Photography Booking Platform",
-    year: "2025",
+    year: "2024",
     status: "Client-Oriented System",
     summary:
       "A booking system for Art De Rio Photography designed to make reservation flow, scheduling, and service handling more organized.",
@@ -66,7 +66,7 @@ export const projects = [
   {
     title: "ZamGo",
     category: "City Navigation and Store Discovery App",
-    year: "2025",
+    year: "2026",
     status: "Google Play Contribution",
     summary:
       "A Zamboanga City application that helps users navigate and discover retail stores, malls, and other places that sell products.",

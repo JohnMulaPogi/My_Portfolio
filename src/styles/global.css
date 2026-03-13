@@ -2222,12 +2222,156 @@ body,
   display: inline-flex;
   align-items: center;
   margin-top: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--accent);
   font-weight: 700;
+  cursor: pointer;
 }
 
 .project-link:hover {
   transform: translateX(2px);
+}
+
+.project-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  display: grid;
+  place-items: center;
+  padding:
+    max(12px, calc(env(safe-area-inset-top) + 8px))
+    12px
+    max(12px, calc(env(safe-area-inset-bottom) + 8px));
+  background:
+    radial-gradient(circle at top, rgba(34, 211, 238, 0.08), transparent 26%),
+    rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.project-modal {
+  position: relative;
+  isolation: isolate;
+  width: min(500px, calc(100vw - 24px));
+  max-height: min(520px, calc(100dvh - 24px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.project-modal::after {
+  z-index: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.11), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(34, 211, 238, 0.12), transparent 24%),
+    radial-gradient(circle at 84% 84%, rgba(139, 92, 246, 0.08), transparent 24%);
+}
+
+.project-modal-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 68px 12px 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+    rgba(255, 255, 255, 0.02);
+}
+
+.project-modal-heading {
+  display: grid;
+  gap: 8px;
+  max-width: 46ch;
+  min-width: 0;
+}
+
+.project-modal-heading h3 {
+  font-size: clamp(1.45rem, 3.4vw, 2.2rem);
+  line-height: 1.02;
+  overflow-wrap: anywhere;
+}
+
+.project-modal-heading p {
+  color: var(--text-muted);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.project-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-strong);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  line-height: 1;
+}
+
+.project-modal-close:hover {
+  border-color: rgba(34, 211, 238, 0.24);
+  transform: translateY(-1px);
+}
+
+.project-modal-body {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  padding: 10px 20px max(20px, calc(env(safe-area-inset-bottom) + 16px));
+  display: grid;
+  gap: 14px;
+}
+
+.project-modal-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.project-modal-topline span,
+.project-modal-stack span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.project-modal-summary {
+  color: var(--text-body);
+  line-height: 1.76;
+}
+
+.project-modal-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+:root[data-theme="light"] .project-modal-backdrop {
+  background:
+    radial-gradient(circle at top, rgba(45, 102, 207, 0.08), transparent 28%),
+    rgba(219, 229, 240, 0.76);
 }
 
 .project-preview-chip {
@@ -2879,6 +3023,40 @@ body,
     grid-template-columns: 1fr;
   }
 
+  .project-modal-backdrop {
+    place-items: center;
+    padding: 14px 12px;
+  }
+
+  .project-modal {
+    width: min(100%, calc(100vw - 24px));
+    max-height: min(480px, calc(100dvh - 24px));
+    border-radius: 24px;
+  }
+
+  .project-modal-header,
+  .project-modal-body {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .project-modal-header {
+    gap: 12px;
+    padding-top: 18px;
+    padding-right: 62px;
+    padding-bottom: 14px;
+  }
+
+  .project-modal-close {
+    top: 14px;
+    right: 14px;
+  }
+
+  .project-modal-topline,
+  .project-modal-stack {
+    gap: 8px;
+  }
+
   .hero-stats,
   .hero-mini-grid,
   .about-card-grid,
@@ -2972,6 +3150,50 @@ body,
     align-items: flex-start;
   }
 
+  .project-modal-backdrop {
+    place-items: center;
+    padding:
+      max(12px, calc(env(safe-area-inset-top) + 8px))
+      10px
+      max(12px, calc(env(safe-area-inset-bottom) + 10px));
+  }
+
+  .project-modal {
+    width: calc(100vw - 20px);
+    max-height: min(440px, calc(100dvh - 40px));
+    border-radius: 22px;
+  }
+
+  .project-modal-header,
+  .project-modal-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .project-modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    gap: 12px;
+    padding-right: 58px;
+  }
+
+  .project-modal-heading {
+    max-width: none;
+  }
+
+  .project-modal-heading p,
+  .project-modal-summary {
+    line-height: 1.65;
+  }
+
+  .project-modal-close {
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+  }
+
   .project-meta {
     justify-content: flex-start;
   }
@@ -3052,6 +3274,20 @@ body,
     padding-bottom: 76px;
   }
 
+  .project-modal-backdrop {
+    place-items: center;
+    padding:
+      max(10px, calc(env(safe-area-inset-top) + 8px))
+      8px
+      max(10px, calc(env(safe-area-inset-bottom) + 8px));
+  }
+
+  .project-modal {
+    width: calc(100vw - 16px);
+    max-height: min(420px, calc(100dvh - 32px));
+    border-radius: 20px;
+  }
+
   .about-story,
   .journey-card,
   .about-card,
@@ -3062,6 +3298,48 @@ body,
   .contact-form,
   .portrait-card {
     padding: 18px;
+  }
+
+  .project-modal-header,
+  .project-modal-body {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .project-modal-header {
+    gap: 12px;
+    padding-top: 14px;
+    padding-right: 52px;
+    padding-bottom: 12px;
+  }
+
+  .project-modal-heading h3 {
+    font-size: clamp(1.55rem, 8vw, 2.05rem);
+  }
+
+  .project-modal-heading p {
+    font-size: 0.92rem;
+  }
+
+  .project-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+
+  .project-modal-topline span,
+  .project-modal-stack span {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 0.76rem;
+  }
+
+  .project-modal-body {
+    padding-top: 12px;
+    padding-bottom: max(14px, calc(env(safe-area-inset-bottom) + 12px));
   }
 
   .hero {
@@ -3168,6 +3446,40 @@ body,
 }
 
 @media (max-width: 380px) {
+  .project-modal-backdrop {
+    place-items: center;
+    padding:
+      max(8px, calc(env(safe-area-inset-top) + 6px))
+      6px
+      max(8px, calc(env(safe-area-inset-bottom) + 6px));
+  }
+
+  .project-modal {
+    width: calc(100vw - 12px);
+    max-height: min(400px, calc(100dvh - 28px));
+    border-radius: 18px;
+  }
+
+  .project-modal-header,
+  .project-modal-body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .project-modal-header {
+    padding-right: 48px;
+  }
+
+  .project-modal-heading h3 {
+    font-size: clamp(1.36rem, 8.4vw, 1.8rem);
+  }
+
+  .project-modal-topline span,
+  .project-modal-stack span {
+    width: fit-content;
+    max-width: 100%;
+  }
+
   .hero-name {
     font-size: clamp(2.45rem, 12.5vw, 3.4rem);
   }
