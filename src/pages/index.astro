@@ -1,11 +1,87 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import MainLayout from "../layouts/MainLayout.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import Hero from "../components/sections/Hero.jsx";
+import AboutPanel from "../components/sections/AboutPanel.jsx";
+import SkillsPanel from "../components/sections/SkillsPanel.jsx";
+import ProjectsGrid from "../components/sections/ProjectsGrid.jsx";
+import AffiliationsStrip from "../components/sections/AffiliationsStrip.jsx";
+import ContactPanel from "../components/sections/ContactPanel.jsx";
+import { site } from "../data/site";
+import { projects } from "../data/projects";
+import { skillGroups, workflowSteps } from "../data/skills";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MainLayout
+  site={site}
+  title={`${site.name} | Portfolio`}
+  description="A premium dark glass portfolio for John Basil Andre P. Mula with polished sections, refined motion, and a modern developer showcase."
+>
+  <section id="home" class="hero-section">
+    <Hero client:load site={site} />
+  </section>
+
+  <section id="about" class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="About"
+        title="A focused look at who I am, how I work, and what I’m building."
+        text="A clean overview of my background, approach, and current direction as a developer."
+      />
+
+      <AboutPanel client:visible site={site} />
+    </div>
+  </section>
+
+  <section id="skills" class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Skills"
+        title="Technology, development focus, and workflow."
+        text="The tools I use most across backend, frontend, mobile, and system-based projects."
+      />
+
+      <SkillsPanel
+        client:visible
+        skillGroups={skillGroups}
+        workflowSteps={workflowSteps}
+      />
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Projects"
+        title="Selected work that reflects both technical ability and presentation."
+        text="A curated set of projects that show system thinking, interface work, and practical implementation."
+      />
+
+      <ProjectsGrid client:visible projects={projects} />
+    </div>
+  </section>
+
+  <section id="experience" class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Experience"
+        title="Current internship and academic foundation."
+        text="The environments that are shaping my growth as a backend and frontend developer."
+      />
+
+      <AffiliationsStrip client:visible affiliations={site.affiliations} />
+    </div>
+  </section>
+
+  <section id="contact" class="section section-last">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Contact"
+        title="A polished, professional way to connect with me."
+        text="Open for internships, project work, collaborations, and opportunities to keep growing."
+      />
+
+      <ContactPanel client:visible site={site} />
+    </div>
+  </section>
+</MainLayout>
