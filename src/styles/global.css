@@ -285,6 +285,19 @@ body,
   box-shadow: 0 0 50px rgba(255, 179, 102, 0.28);
 }
 
+.loader-sun::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 12px;
+  height: 110px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(255, 220, 164, 0.42), transparent);
+  filter: blur(6px);
+  opacity: 0.7;
+}
+
 .loader-cloud {
   position: absolute;
   border-radius: 999px;
@@ -360,6 +373,29 @@ body,
     linear-gradient(180deg, rgba(35, 115, 151, 0.45), rgba(13, 66, 104, 0.88) 38%, rgba(8, 29, 48, 0.94) 100%);
 }
 
+.loader-ocean::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 228, 168, 0.18), transparent 72%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 40%);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+.loader-ocean::after {
+  content: "";
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  bottom: -3px;
+  height: 24px;
+  border-radius: 50%;
+  border-top: 2px solid rgba(255, 255, 255, 0.32);
+  opacity: 0.86;
+}
+
 .loader-wave {
   position: absolute;
   left: -8%;
@@ -401,6 +437,17 @@ body,
     0 10px 18px rgba(0, 0, 0, 0.18);
 }
 
+.loader-turtle-shell::after {
+  content: "";
+  position: absolute;
+  inset: 6px 8px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(184, 214, 153, 0.28), transparent 18%),
+    linear-gradient(90deg, transparent 32%, rgba(43, 63, 34, 0.22) 32%, rgba(43, 63, 34, 0.22) 36%, transparent 36%, transparent 64%, rgba(43, 63, 34, 0.22) 64%, rgba(43, 63, 34, 0.22) 68%, transparent 68%),
+    linear-gradient(180deg, transparent 34%, rgba(43, 63, 34, 0.22) 34%, rgba(43, 63, 34, 0.22) 40%, transparent 40%, transparent 60%, rgba(43, 63, 34, 0.22) 60%, rgba(43, 63, 34, 0.22) 66%, transparent 66%);
+}
+
 .loader-turtle-head {
   position: absolute;
   right: 12px;
@@ -409,6 +456,17 @@ body,
   height: 13px;
   border-radius: 45% 55% 54% 46%;
   background: linear-gradient(180deg, #8cb384, #62805d);
+}
+
+.loader-turtle-head::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: #233120;
 }
 
 .loader-turtle-tail {
@@ -451,6 +509,17 @@ body,
     linear-gradient(180deg, #dec8a2, #c8ad84);
 }
 
+.loader-shore::before {
+  content: "";
+  position: absolute;
+  inset: 14% 10% auto;
+  height: 14px;
+  background:
+    radial-gradient(circle, rgba(115, 90, 58, 0.22) 0 2px, transparent 2px) 0 0 / 46px 16px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 0 1px, transparent 1px) 18px 4px / 54px 16px;
+  opacity: 0.55;
+}
+
 .loader-progress {
   position: absolute;
   left: 50%;
@@ -472,6 +541,16 @@ body,
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.14),
     0 10px 20px rgba(0, 0, 0, 0.18);
+}
+
+.loader-progress-track::before {
+  content: "";
+  position: absolute;
+  inset: 3px 8px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px) 0 0 / 24px 12px;
+  opacity: 0.6;
 }
 
 .loader-progress-fill {

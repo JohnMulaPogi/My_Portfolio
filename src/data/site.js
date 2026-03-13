@@ -57,8 +57,8 @@ export const site = {
 
   // Replace with your portrait file later if you have a real image.
   portrait: {
-    src: "/profile-photo.svg",
-    alt: "Portrait placeholder for John Basil Andre P. Mula. Replace this with your own image later.",
+    src: "/pic.JPG",
+    alt: "Portrait of John Basil Mula",
   },
 
   // Replace or overwrite these logo placeholders when you have the real files.
