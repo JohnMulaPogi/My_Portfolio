@@ -218,6 +218,244 @@ body,
   animation-delay: 4s;
 }
 
+.bubble-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.8;
+  mask-image: radial-gradient(circle at 52% 44%, rgba(0, 0, 0, 0.18) 0 12%, rgba(0, 0, 0, 0.54) 36%, rgba(0, 0, 0, 0.88) 72%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: radial-gradient(circle at 52% 44%, rgba(0, 0, 0, 0.18) 0 12%, rgba(0, 0, 0, 0.54) 36%, rgba(0, 0, 0, 0.88) 72%, rgba(0, 0, 0, 1) 100%);
+}
+
+.interactive-bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 96px;
+  height: 96px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  appearance: none;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  will-change: transform;
+  filter: blur(var(--bubble-motion-blur, 0.6px));
+  opacity: var(--bubble-layer-opacity, 0.86);
+  transition: opacity 0.24s ease, filter 0.24s ease;
+}
+
+.interactive-bubble-shell {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  transform-origin: center;
+  transform:
+    rotate(var(--bubble-shell-tilt, 0deg))
+    skewX(var(--bubble-shell-skew-x, 0deg))
+    scale(var(--bubble-shell-scale-x, 1), var(--bubble-shell-scale-y, 1));
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background:
+    radial-gradient(circle at 26% 24%, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.11) 14%, rgba(255, 255, 255, 0.035) 30%, rgba(255, 255, 255, 0.012) 54%, transparent 74%),
+    radial-gradient(circle at 74% 72%, rgba(34, 211, 238, 0.08), transparent 34%),
+    radial-gradient(circle at 46% 58%, rgba(255, 255, 255, 0.032), transparent 56%),
+    rgba(255, 255, 255, 0.008);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset -10px -16px 24px rgba(34, 211, 238, 0.035),
+    0 16px 28px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(5px) saturate(112%);
+  opacity: var(--bubble-opacity, 0.24);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    opacity 0.22s ease,
+    filter 0.22s ease;
+  animation: bubble-shimmer 8.4s ease-in-out infinite;
+  animation-delay: var(--bubble-shimmer-delay, 0s);
+}
+
+.interactive-bubble-shell::before {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0.42;
+}
+
+.bubble-rim,
+.bubble-highlight,
+.bubble-caustic,
+.bubble-shadow,
+.bubble-pop-flash,
+.bubble-pop-fragment,
+.bubble-pop-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.bubble-rim {
+  inset: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 14px 12px 22px rgba(255, 255, 255, 0.03);
+}
+
+.bubble-highlight-main {
+  left: 12%;
+  top: 10%;
+  width: 38%;
+  height: 24%;
+  background: radial-gradient(circle at 42% 40%, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.1) 56%, transparent 78%);
+  filter: blur(1px);
+  opacity: 0.8;
+}
+
+.bubble-highlight-soft {
+  right: 16%;
+  top: 22%;
+  width: 18%;
+  height: 14%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.34), transparent 72%);
+}
+
+.bubble-caustic {
+  left: 18%;
+  bottom: 16%;
+  width: 52%;
+  height: 26%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.06), transparent 72%);
+  opacity: 0.52;
+  transform: rotate(-12deg);
+}
+
+.bubble-shadow {
+  inset: auto 20% 12% 20%;
+  height: 16%;
+  background: radial-gradient(ellipse at center, rgba(11, 15, 25, 0.1), transparent 76%);
+  filter: blur(6px);
+  opacity: 0.22;
+}
+
+.bubble-pop-flash {
+  inset: 34%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.08) 52%, transparent 72%);
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.bubble-pop-fragment {
+  width: 18%;
+  height: 18%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 72%);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
+  opacity: 0;
+}
+
+.bubble-pop-fragment-1 {
+  top: 22%;
+  left: 18%;
+}
+
+.bubble-pop-fragment-2 {
+  top: 18%;
+  right: 20%;
+}
+
+.bubble-pop-fragment-3 {
+  bottom: 18%;
+  left: 44%;
+}
+
+.bubble-pop-ring {
+  inset: -8%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  opacity: 0;
+  transform: scale(0.72);
+}
+
+.interactive-bubble:hover .interactive-bubble-shell {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset -10px -16px 24px rgba(34, 211, 238, 0.05),
+    0 22px 30px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.interactive-bubble.is-dragging {
+  cursor: grabbing;
+  z-index: 6;
+}
+
+.interactive-bubble.is-dragging .interactive-bubble-shell {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset -10px -16px 28px rgba(34, 211, 238, 0.06),
+    0 24px 34px rgba(0, 0, 0, 0.12),
+    0 0 18px rgba(34, 211, 238, 0.08);
+  animation-play-state: paused;
+}
+
+.interactive-bubble.is-popping {
+  pointer-events: none;
+}
+
+.interactive-bubble.is-popping .interactive-bubble-shell {
+  animation: bubble-pop 0.46s cubic-bezier(0.22, 0.8, 0.2, 1) forwards;
+}
+
+.interactive-bubble.is-popping .bubble-pop-ring {
+  animation: bubble-pop-ring 0.46s ease forwards;
+}
+
+.interactive-bubble.is-popping .bubble-pop-flash {
+  animation: bubble-pop-flash 0.46s ease-out forwards;
+}
+
+.interactive-bubble.is-popping .bubble-pop-fragment-1 {
+  animation: bubble-pop-fragment-one 0.46s ease-out forwards;
+}
+
+.interactive-bubble.is-popping .bubble-pop-fragment-2 {
+  animation: bubble-pop-fragment-two 0.46s ease-out forwards;
+}
+
+.interactive-bubble.is-popping .bubble-pop-fragment-3 {
+  animation: bubble-pop-fragment-three 0.46s ease-out forwards;
+}
+
+:root[data-theme="light"] .interactive-bubble-shell {
+  border-color: rgba(255, 255, 255, 0.34);
+  background:
+    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.2) 18%, rgba(255, 255, 255, 0.08) 36%, rgba(255, 255, 255, 0.024) 58%, transparent 72%),
+    radial-gradient(circle at 72% 76%, rgba(45, 102, 207, 0.08), transparent 34%),
+    radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.1), transparent 58%),
+    rgba(255, 255, 255, 0.018);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.46),
+    inset -10px -16px 22px rgba(45, 102, 207, 0.04),
+    0 18px 28px rgba(148, 163, 184, 0.08);
+}
+
+:root[data-theme="light"] .bubble-shadow {
+  background: radial-gradient(ellipse at center, rgba(100, 116, 139, 0.12), transparent 76%);
+}
+
+:root[data-theme="light"] .bubble-pop-fragment {
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.12);
+}
+
 .site-loader {
   position: fixed;
   inset: 0;
@@ -763,10 +1001,14 @@ body,
 }
 
 .site-main {
+  position: relative;
+  z-index: 1;
   overflow: clip;
 }
 
 .site-footer {
+  position: relative;
+  z-index: 1;
   padding: 28px 0 52px;
   border-top: 1px solid var(--border);
   background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.015));
@@ -2120,6 +2362,130 @@ body,
 
   50% {
     transform: translate3d(14px, -12px, 0);
+  }
+}
+
+@keyframes bubble-shimmer {
+  0%,
+  100% {
+    filter: saturate(0.96) brightness(0.98);
+  }
+
+  50% {
+    filter: saturate(1.04) brightness(1.04);
+  }
+}
+
+@keyframes bubble-pop {
+  0% {
+    transform:
+      rotate(var(--bubble-shell-tilt, 0deg))
+      skewX(var(--bubble-shell-skew-x, 0deg))
+      scale(var(--bubble-shell-scale-x, 1), var(--bubble-shell-scale-y, 1));
+    opacity: var(--bubble-opacity, 0.22);
+    filter: saturate(1) brightness(1);
+  }
+
+  28% {
+    transform:
+      rotate(calc(var(--bubble-pop-angle, 0deg) * -0.24))
+      scale(1.08, 0.92);
+    opacity: 0.34;
+  }
+
+  62% {
+    transform:
+      rotate(calc(var(--bubble-pop-angle, 0deg) * 0.88))
+      scale(1.28, 0.38);
+    opacity: 0.18;
+  }
+
+  100% {
+    transform:
+      rotate(calc(var(--bubble-pop-angle, 0deg) * 1.4))
+      scale(1.48, 0.08);
+    opacity: 0;
+    filter: blur(4px) saturate(1.04);
+  }
+}
+
+@keyframes bubble-pop-ring {
+  0% {
+    opacity: 0.14;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 0.28;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.42);
+  }
+}
+
+@keyframes bubble-pop-flash {
+  0% {
+    opacity: 0.06;
+    transform: scale(0.4);
+  }
+
+  36% {
+    opacity: 0.22;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.72);
+  }
+}
+
+@keyframes bubble-pop-fragment-one {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.55) rotate(-10deg);
+  }
+
+  20% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-28px, -20px, 0) scale(1.05) rotate(-44deg);
+  }
+}
+
+@keyframes bubble-pop-fragment-two {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.55) rotate(12deg);
+  }
+
+  18% {
+    opacity: 0.28;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(30px, -16px, 0) scale(1.08) rotate(46deg);
+  }
+}
+
+@keyframes bubble-pop-fragment-three {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.5) rotate(6deg);
+  }
+
+  16% {
+    opacity: 0.24;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.96) rotate(24deg);
   }
 }
 

@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import ThemeToggle from "../components/ThemeToggle.jsx";
+import InteractiveBubbles from "../components/InteractiveBubbles.jsx";
 
 type SocialLink = {
   label: string;
@@ -96,6 +97,7 @@ const currentYear = new Date().getFullYear();
     <div class="ambient-orb ambient-orb-one"></div>
     <div class="ambient-orb ambient-orb-two"></div>
     <div class="ambient-orb ambient-orb-three"></div>
+    <InteractiveBubbles client:load />
 
     <header class="site-header">
       <div class="container nav-wrap">
