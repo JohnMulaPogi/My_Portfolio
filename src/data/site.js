@@ -68,15 +68,15 @@ export const site = {
       name: "Vintazk Outsourcing",
       detail:
         "Currently contributing to Inventa, a POS and Inventory Management System.",
-      logo: "/vintazk-logo.svg",
-      alt: "Vintazk Outsourcing logo placeholder",
+      logo: "/vintazklogo.webp",
+      alt: "Vintazk Outsourcing logo",
     },
     {
       label: "Education",
       name: "Western Mindanao State University",
       detail: "Bachelor of Science in Information Technology",
-      logo: "/wmsu-logo.svg",
-      alt: "Western Mindanao State University logo placeholder",
+      logo: "/wmsulogo.png",
+      alt: "Western Mindanao State University logo",
     },
   ],
 

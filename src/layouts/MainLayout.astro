@@ -14,6 +14,8 @@ type LayoutSite = {
   name?: string;
   role?: string;
   email?: string;
+  location?: string;
+  availability?: string;
   socialLinks?: SocialLink[];
 };
 
@@ -40,6 +42,9 @@ const currentYear = new Date().getFullYear();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/mylogo.png" />
+    <link rel="shortcut icon" href="/mylogo.png" />
+    <link rel="apple-touch-icon" href="/mylogo.png" />
     <title>{title}</title>
     <script is:inline>
       const savedTheme = localStorage.getItem("theme");
@@ -97,31 +102,47 @@ const currentYear = new Date().getFullYear();
     <div class="ambient-orb ambient-orb-one"></div>
     <div class="ambient-orb ambient-orb-two"></div>
     <div class="ambient-orb ambient-orb-three"></div>
-    <InteractiveBubbles client:load />
+    <InteractiveBubbles client:idle />
+    <div class="page-progress" aria-hidden="true">
+      <span id="page-progress-bar" class="page-progress-bar"></span>
+    </div>
 
     <header class="site-header">
       <div class="container nav-wrap">
         <a href="#home" class="brand">
           <span class="brand-mark">{site?.brand ?? "Portfolio"}.</span>
-          <span class="brand-copy">
-            <strong>{site?.name ?? "Your Full Name"}</strong>
-            <small>{site?.role ?? "Portfolio Owner"}</small>
-          </span>
         </a>
 
-        <div class="nav-frame">
-          <nav class="nav">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
-            <a href="#contact">Contact</a>
-          </nav>
+        <div class="nav-shell" data-nav-shell>
+          <div class="nav-frame" id="site-nav-frame">
+            <nav class="nav">
+              <a href="#home">Home</a>
+              <a href="#about">About</a>
+              <a href="#skills">Skills</a>
+              <a href="#projects">Projects</a>
+              <a href="#experience">Experience</a>
+              <a href="#contact">Contact</a>
+            </nav>
+          </div>
 
-          <div class="nav-utilities">
+          <div class="theme-toggle-dock">
             <ThemeToggle client:load />
           </div>
+
+          <button
+            type="button"
+            class="nav-toggle"
+            data-nav-toggle
+            aria-expanded="false"
+            aria-controls="site-nav-frame"
+            aria-label="Open navigation menu"
+          >
+            <span class="nav-toggle-lines" aria-hidden="true">
+              <span class="nav-toggle-line"></span>
+              <span class="nav-toggle-line"></span>
+              <span class="nav-toggle-line"></span>
+            </span>
+          </button>
         </div>
       </div>
     </header>
@@ -132,7 +153,13 @@ const currentYear = new Date().getFullYear();
 
     <footer class="site-footer">
       <div class="container footer-minimal">
-        <p class="footer-name">{site?.name ?? "Your Full Name"}</p>
+        <div class="footer-signoff">
+          <p class="footer-name">{site?.name ?? "Your Full Name"}</p>
+          <p class="footer-note">
+            {site?.location ?? "Your Location"}
+            {site?.availability && <span> | {site.availability}</span>}
+          </p>
+        </div>
 
         <div class="footer-meta">
           <span>&copy; {currentYear}</span>
@@ -146,16 +173,25 @@ const currentYear = new Date().getFullYear();
           <a href={`mailto:${site?.email ?? ""}`} class="footer-link">
             Email
           </a>
+
+          <a href="#home" class="footer-link">Back to top</a>
         </div>
       </div>
     </footer>
 
     <script is:inline>
+      const navShell = document.querySelector("[data-nav-shell]");
+      const navToggle = document.querySelector("[data-nav-toggle]");
+      const navFrame = document.getElementById("site-nav-frame");
+      const navLinks = navFrame?.querySelectorAll('a[href^="#"]') ?? [];
+      const mobileNavQuery = window.matchMedia("(max-width: 860px)");
+      const pageProgressBar = document.getElementById("page-progress-bar");
       const loader = document.getElementById("site-loader");
       const loaderScene = loader?.querySelector(".site-loader-scene");
       let loaderProgress = 8;
       let targetProgress = 88;
       let progressFrame = 0;
+      let scrollFrame = 0;
 
       const setLoaderProgress = (value) => {
         loaderScene?.style.setProperty("--loader-progress", `${value}%`);
@@ -184,6 +220,48 @@ const currentYear = new Date().getFullYear();
         }
       };
 
+      const updatePageProgress = () => {
+        const scrollHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress =
+          scrollHeight > 0 ? Math.min(window.scrollY / scrollHeight, 1) : 0;
+
+        pageProgressBar?.style.setProperty(
+          "transform",
+          `scaleX(${progress.toFixed(4)})`,
+        );
+        scrollFrame = 0;
+      };
+
+      const requestPageProgress = () => {
+        if (!scrollFrame) {
+          scrollFrame = window.requestAnimationFrame(updatePageProgress);
+        }
+      };
+
+      const setNavState = (open) => {
+        if (!navShell || !navToggle) return;
+
+        const isMobile = mobileNavQuery.matches;
+        const shouldOpen = isMobile && open;
+        navShell.classList.toggle("is-open", shouldOpen);
+        navToggle.setAttribute("aria-expanded", String(shouldOpen));
+        navToggle.setAttribute(
+          "aria-label",
+          shouldOpen ? "Close navigation menu" : "Open navigation menu",
+        );
+      };
+
+      const closeNav = () => {
+        setNavState(false);
+      };
+
+      const syncNavMode = () => {
+        if (!mobileNavQuery.matches) {
+          closeNav();
+        }
+      };
+
       const hideLoader = () => {
         if (!loader) return;
 
@@ -199,6 +277,39 @@ const currentYear = new Date().getFullYear();
 
       setLoaderProgress(loaderProgress);
       startLoaderProgress();
+      updatePageProgress();
+      window.addEventListener("scroll", requestPageProgress, { passive: true });
+      window.addEventListener("resize", requestPageProgress);
+      window.addEventListener("resize", syncNavMode);
+
+      navToggle?.addEventListener("click", () => {
+        const isOpen = navShell?.classList.contains("is-open");
+        setNavState(!isOpen);
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          closeNav();
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!mobileNavQuery.matches || !navShell?.classList.contains("is-open")) {
+          return;
+        }
+
+        if (navShell.contains(event.target)) {
+          return;
+        }
+
+        closeNav();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeNav();
+        }
+      });
 
       if (document.readyState === "complete") {
         finishLoader();

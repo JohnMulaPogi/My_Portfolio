@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion } from "motion/react";
 
 function splitName(name) {
   const parts = name.split(" ").filter(Boolean);
@@ -159,18 +159,10 @@ function iconTone(name) {
 }
 
 export default function Hero({ site }) {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 130,
-    damping: 22,
-    mass: 0.22,
-  });
   const { first, rest } = splitName(site.name || "Portfolio");
 
   return (
     <>
-      <motion.div className="progress-bar" style={{ scaleX }} />
-
       <section className="hero">
         <div className="hero-glow hero-glow-1" />
         <div className="hero-glow hero-glow-2" />
