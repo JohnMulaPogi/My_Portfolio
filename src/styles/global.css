@@ -7,10 +7,6 @@
   --header-height: 92px;
   --heading-font: Inter, "Segoe UI", Arial, sans-serif;
   --body-font: Inter, "Segoe UI", Arial, sans-serif;
-  --constellation-dot: rgba(226, 232, 240, 0.75);
-  --constellation-line: rgba(148, 163, 184, 0.2);
-  --constellation-glow: rgba(34, 211, 238, 0.16);
-  --constellation-pointer: rgba(34, 211, 238, 0.1);
 }
 
 :root[data-theme="dark"] {
@@ -61,10 +57,6 @@
   --glow-cyan: rgba(34, 211, 238, 0.05);
   --glow-violet: rgba(139, 92, 246, 0.045);
   --glow-blue: rgba(59, 130, 246, 0.045);
-  --constellation-dot: rgba(30, 41, 59, 0.42);
-  --constellation-line: rgba(30, 41, 59, 0.1);
-  --constellation-glow: rgba(37, 99, 235, 0.08);
-  --constellation-pointer: rgba(37, 99, 235, 0.06);
 }
 
 * {
@@ -224,16 +216,6 @@ body,
   left: 55%;
   background: rgba(59, 130, 246, 0.1);
   animation-delay: 4s;
-}
-
-.interactive-constellation {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.74;
 }
 
 .site-loader {
